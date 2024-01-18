@@ -32,7 +32,7 @@ export class BlogWebInfraStack extends cdk.Stack {
     );
 
     const s3Bucket = new s3.Bucket(this, "S3Bucket", {
-      bucketName: "prototypeinsights.com",
+      bucketName: blogDomain,
     });
 
     const distribution = new cloudfront.Distribution(this, "Distribution", {
