@@ -51,6 +51,9 @@ export class BlogWebInfraStack extends cdk.Stack {
         functionAssociations: [{
           function: viewerRequestFunction,
           eventType: cloudfront.FunctionEventType.VIEWER_REQUEST,
+        }, {
+          function: this.getHttpSecurityHeadersFunction(),
+          eventType: cloudfront.FunctionEventType.VIEWER_RESPONSE,
         }],
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         compress: true,
@@ -141,7 +144,7 @@ export class BlogWebInfraStack extends cdk.Stack {
         "var response = event.response; " +
         "var headers = response.headers; " +
         "headers['strict-transport-security'] = { value: 'max-age=63072000; includeSubdomains; preload'}; " +
-        "headers['content-security-policy'] = { value: \"default-src 'none'; img-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'\"}; " +
+        // "headers['content-security-policy'] = { value: \"default-src 'none'; img-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'\"}; " +
         "headers['x-content-type-options'] = { value: 'nosniff'}; headers['x-frame-options'] = {value: 'DENY'}; " +
         "headers['x-xss-protection'] = {value: '1; mode=block'}; " +
         "return response; }")
